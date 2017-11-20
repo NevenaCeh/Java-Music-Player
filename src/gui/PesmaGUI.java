@@ -7,6 +7,7 @@ package gui;
 
 import domen.Pesma;
 import java.awt.Frame;
+import java.awt.Scrollbar;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -58,6 +59,7 @@ public class PesmaGUI extends javax.swing.JDialog {
         jbtnStop = new javax.swing.JButton();
         jbtnNext = new javax.swing.JButton();
         jbtnPrevious = new javax.swing.JButton();
+        skroler = new java.awt.Scrollbar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -91,6 +93,8 @@ public class PesmaGUI extends javax.swing.JDialog {
             }
         });
 
+        skroler.setOrientation(java.awt.Scrollbar.HORIZONTAL);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,13 +104,18 @@ public class PesmaGUI extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbtnPrevious)
-                        .addGap(55, 55, 55)
+                        .addGap(136, 136, 136)
                         .addComponent(jbtnNext))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jbtnStop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jlblNazivPesme)
-                        .addComponent(jbtnPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(158, Short.MAX_VALUE))
+                    .addComponent(jlblNazivPesme))
+                .addGap(0, 77, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbtnPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jbtnStop, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                        .addComponent(skroler, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +126,9 @@ public class PesmaGUI extends javax.swing.JDialog {
                 .addComponent(jbtnPlay)
                 .addGap(28, 28, 28)
                 .addComponent(jbtnStop)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addComponent(skroler, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnNext)
                     .addComponent(jbtnPrevious))
@@ -140,18 +151,19 @@ public class PesmaGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnStopActionPerformed
 
     private void jbtnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPreviousActionPerformed
+        Kontroler.getInstance().zaustaviPesmu();
+        Kontroler.getInstance().zatvoriDialog();
         int red = svePesme.indexOf(pesma);
         if (red == 0) {
             red = svePesme.size();
         }
         PesmaGUI pgui = new PesmaGUI((Frame) this.getParent(), true, svePesme.get(red-1), svePesme);
-        pgui.setVisible(true);
-        
-        Kontroler.getInstance().zaustaviPesmu();
-        Kontroler.getInstance().zatvoriDialog();
+        pgui.setVisible(true);      
     }//GEN-LAST:event_jbtnPreviousActionPerformed
 
     private void jbtnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNextActionPerformed
+        Kontroler.getInstance().zaustaviPesmu();
+        Kontroler.getInstance().zatvoriDialog();
         int red = svePesme.indexOf(pesma);
         if (red == svePesme.size()-1) {
             red = -1;
@@ -159,11 +171,10 @@ public class PesmaGUI extends javax.swing.JDialog {
         if (red == svePesme.size()-1) {
             red = -1;
         }
+        
         PesmaGUI pgui = new PesmaGUI((Frame) this.getParent(), true, svePesme.get(red+1), svePesme);
         pgui.setVisible(true);
-       // this.setVisible(false);
-        Kontroler.getInstance().zaustaviPesmu();
-        Kontroler.getInstance().zatvoriDialog();
+       // this.setVisible(false);        
     }//GEN-LAST:event_jbtnNextActionPerformed
 
     /**
@@ -176,6 +187,7 @@ public class PesmaGUI extends javax.swing.JDialog {
     private javax.swing.JButton jbtnPrevious;
     private javax.swing.JButton jbtnStop;
     private javax.swing.JLabel jlblNazivPesme;
+    private java.awt.Scrollbar skroler;
     // End of variables declaration//GEN-END:variables
 
     private void postaviStranu() {

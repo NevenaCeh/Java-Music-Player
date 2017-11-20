@@ -25,7 +25,9 @@ public class SvePesme extends javax.swing.JDialog {
     public SvePesme(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        postaviTabelu();
+        postaviTabelu();        
+        postaviStranu();
+        Kontroler.getInstance().setDialog(this);
     }
 
     /**
@@ -119,7 +121,6 @@ public class SvePesme extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtblPesmeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblPesmeMouseClicked
-      
         int red = jtblPesme.getSelectedRow();
         TblModelPesme model = (TblModelPesme) jtblPesme.getModel();
         List<Pesma> pesme = model.getPesme();
@@ -129,15 +130,18 @@ public class SvePesme extends javax.swing.JDialog {
     }//GEN-LAST:event_jtblPesmeMouseClicked
 
     private void jbtnPlayAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPlayAllActionPerformed
+        jbtnPlayAll.setEnabled(false);
+        jbtnStop.setEnabled(true);
         TblModelPesme model = (TblModelPesme) jtblPesme.getModel();
         List<Pesma> pesme = model.getPesme();
-        for (Pesma pesma : pesme) {
-            Kontroler.getInstance().pokreniPesmu(pesma);
-        }
+        Kontroler.getInstance().pokreniSvePesme(pesme);
+        
     }//GEN-LAST:event_jbtnPlayAllActionPerformed
 
     private void jbtnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnStopActionPerformed
-        Kontroler.getInstance().zaustaviPesmu();
+        jbtnPlayAll.setEnabled(true);
+        jbtnStop.setEnabled(false);
+        Kontroler.getInstance().zaustaviSvePesme();
     }//GEN-LAST:event_jbtnStopActionPerformed
 
     /**
@@ -153,13 +157,17 @@ public class SvePesme extends javax.swing.JDialog {
     private javax.swing.JTable jtblPesme;
     // End of variables declaration//GEN-END:variables
 
-    private void postaviTabelu()  {
+    private void postaviTabelu() {
         try {
             List<Pesma> pesme = Kontroler.getInstance().vratiSvePesme();
             jtblPesme.setModel(new TblModelPesme(pesme));
         } catch (Exception ex) {
             Logger.getLogger(SvePesme.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+    }
+    
+    private void postaviStranu() {
+        jbtnPlayAll.setEnabled(true);
+        jbtnStop.setEnabled(false);
     }
 }

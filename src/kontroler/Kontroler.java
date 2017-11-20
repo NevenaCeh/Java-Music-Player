@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import niti.NitForme;
 import niti.NitPesma;
 import so.OpstaSO;
 import so.SODodajPesmu;
@@ -28,6 +30,7 @@ public class Kontroler {
     private static Kontroler instanca;
     private NitPesma nit;
     private JDialog dialog;
+    private NitForme nitforme;
 
     private Kontroler() {
     }
@@ -52,7 +55,6 @@ public class Kontroler {
         } catch (Exception ex) {
             return false;
         }
-
     }
 
     public List<Pesma> vratiSvePesme() throws Exception {
@@ -71,7 +73,6 @@ public class Kontroler {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public void zaustaviPesmu() {
@@ -85,11 +86,36 @@ public class Kontroler {
     public void setDialog(JDialog dialog) {
         this.dialog = dialog;
     }
-    
-    public void zatvoriDialog(){
+
+    public void zatvoriDialog() {
         dialog.setVisible(false);
     }
-    
-    
 
+    public void pokreniSvePesme(List<Pesma> pesme) {
+        
+        for (Pesma pesma : pesme) {
+            //Pesma prva = pesme.get(0);
+            FileInputStream fis;
+            try {
+                fis = new FileInputStream(pesma.getLokacija());
+                System.out.println(pesma.getLokacija());
+                nit = new NitPesma(fis);
+                nit.play();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            boolean gotovaprva = nit.gotovaPesma();
+            while (!gotovaprva) {
+                gotovaprva = nit.gotovaPesma();
+            }
+            nit.stoppesmu();
+        }
+    }
+
+    public void zaustaviSvePesme() {
+        nit.close();
+    }
+
+    
+    
 }
